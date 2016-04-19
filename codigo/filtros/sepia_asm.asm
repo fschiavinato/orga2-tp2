@@ -32,7 +32,7 @@ sepia_asm:
     push rbp
     mov rbp, rsp
     push rbx
-    shr rcx, 2 ; Transformamos pixeles a bytes
+    shl rdx, 2 ; Transformamos pixeles a bytes
 
     ; rax = indice fila.
     ; rbx = indice columna.
@@ -78,10 +78,10 @@ sepia_asm:
     psrld xmm0, bs_byte*3 ; xmm0 = | 0 | 0 | 0 | a3 | 0 | 0 | 0 | a2 | 0 | 0 | 0 | a1 | 0 | 0 | 0 | a0 |
 
     paddb xmm0, xmm2 ; xmm0 = | r3' | g3' | b3' |  a3  | r2' | g2' | b2' |  a2  | r1' | g1' | b1' |  a1  | r0' | b0' | g0' |  a0  |
-    movdqu [rdi + rbx], xmm0
+    movdqu [rsi + rbx], xmm0
     
     add rbx, BYTESXPIXEL * PIXELXITERACION
-    cmp ebx, r8d
+    cmp rbx, r8
     jl .loop
 
     xor rbx, rbx
