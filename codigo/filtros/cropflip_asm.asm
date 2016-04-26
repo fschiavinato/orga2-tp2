@@ -31,7 +31,9 @@ cropflip_asm:
     push r15
 
     xor r12, r12
+    xor r13, r13
     xor r14, r14
+    xor r15, r15
 
     mov r12d, [rbp+16] ; tamx
     mov r13d, [rbp+24] ; tamy
@@ -45,8 +47,8 @@ cropflip_asm:
 
     ; Nos movemos a la posicion de la imagen fuente.
     xor rax, rax
-    mov eax, ecx
-    sub eax, r15d
+    add eax, r15d
+    add eax, r13d
     mul r8d
     add rdi, rax
     lea rdi, [rdi + r14 * BYTESXPIXEL]
