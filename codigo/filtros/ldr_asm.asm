@@ -4,12 +4,13 @@
 %define  vmax_f 4876875.0
 global ldr_asm
 %define bs_byte 8
-%define a_quitador 8
 %define bs_word 16
 %define bs_dword 32
 %define s_xmm 16
 %define s_dqword 16
 %define s_qword 8
+%define s_dword 4
+%define s_word 2
 %define s_pixel 4
 %define ss_pixel 16 ;(s_pixel *4)
 %define alpha rbp+16
@@ -40,7 +41,6 @@ section .text
 ldr_asm:
     push rbp
     mov rbp, rsp
-    mov r10, [rbp+16]
     push rbx
     push r12
     push r13
@@ -108,9 +108,9 @@ ldr_asm:
 .cargado:
     ; Los * significan que hay datos basura, o sea que no nos importa usarlos.
     punpcklbw xmm10, xmm0 ; xmm10 = |a01|*|r01|*|g01|*|b01|*|a00|*|r00|*|g00|*|b00|*|
-    psrlw xmm10, bs_byte
+    psrlw xmm10, bs_byte ; xmm10 = |a01|r01|g01|b01|a00|r00|g00|b00|
     punpckhbw xmm11, xmm0 ; xmm11 = |a03|*|r03|*|g03|*|b03|*|a02|*|r02|*|g02|*|b02|*|
-    psrlw xmm11, bs_byte
+    psrlw xmm11, bs_byte ; xmm11 = |a03|r03|g03|b03|a02|r02|g02|b02|
 
     punpcklbw xmm0, xmm1 ; xmm0 = |a11|*|r11|*|g11|*|b11|*|a10|*|r10|*|g10|*|b10|*|
     psrlw xmm0, bs_byte ; xmm0 = |a11|r11|g11|b11|a10|r10|g10|b10|
@@ -200,28 +200,28 @@ ldr_asm:
     ; pij = |rij+gij+bij|
 
     punpckhwd xmm0, xmm0 ; xmm0 = |p43+p33+p23+p13+p03|*|p42+p32+p22+p12+p02|*|p41+p31+p21+p11+p01|*|p40+p30+p20+p10+p00|*|
-    psrld xmm0, bs_word
+    psrld xmm0, bs_word ; xmm0 = |p43+p33+p23+p13+p03|p42+p32+p22+p12+p02|p41+p31+p21+p11+p01|p40+p30+p20+p10+p00|
     punpckhwd xmm10, xmm10 ; xmm10 = |p47+p37+p27+p17+p07|*|p46+p36+p26+p16+p06|*|p45+p35+p25+p15+p05|*|p44+p34+p24+p14+p04|*|
     psrld xmm10, bs_word ; xmm10 =  |p47+p37+p27+p17+p07|p46+p36+p26+p16+p06|p45+p35+p25+p15+p05|p44+p34+p24+p14+p04|
 
     movdqa xmm1, xmm0
-    psrldq xmm1, bs_dword ; xmm1 = |0|p43+p33+p23+p13+p03|p42+p32+p22+p12+p02|p41+p31+p21+p11+p01|
+    psrldq xmm1, s_dword ; xmm1 = |0|p43+p33+p23+p13+p03|p42+p32+p22+p12+p02|p41+p31+p21+p11+p01|
     paddd xmm0, xmm1 ; xmm0 = |p43+p33+p23+p13+p03|p43+p33+p23+p13+p03+p42+p32+p22+p12+p02|p42+p32+p22+p12+p02+p41+p31+p21+p11+p01|p41+p31+p21+p11+p01+p40+p30+p20+p10+p00|
-    psrldq xmm1, bs_dword ; xmm1 = |0|p43+p33+p23+p13+p03|p42+p32+p22+p12+p02|
-    paddw xmm0, xmm1 ; xmm0 = |p43+p33+p23+p13+p03|p43+p33+p23+p13+p03+p42+p32+p22+p12+p02|p43+p33+p23+p13+p03+p42+p32+p22+p12+p02+p41+p31+p21+p11+p01|p42+p32+p22+p12+p02+p41+p31+p21+p11+p01+p40+p30+p20+p10+p00|
+    psrldq xmm1, s_dword ; xmm1 = |0|p43+p33+p23+p13+p03|p42+p32+p22+p12+p02|
+    paddd xmm0, xmm1 ; xmm0 = |p43+p33+p23+p13+p03|p43+p33+p23+p13+p03+p42+p32+p22+p12+p02|p43+p33+p23+p13+p03+p42+p32+p22+p12+p02+p41+p31+p21+p11+p01|p42+p32+p22+p12+p02+p41+p31+p21+p11+p01+p40+p30+p20+p10+p00|
 
-    psrldq xmm1, bs_dword ; xmm1 = |0|p43+p33+p23+p13+p03|
+    psrldq xmm1, s_dword ; xmm1 = |0|p43+p33+p23+p13+p03|
     paddd xmm0, xmm1 ; xmm0 = |p43+p33+p23+p13+p03|p43+p33+p23+p13+p03+p42+p32+p22+p12+p02|p43+p33+p23+p13+p03+p42+p32+p22+p12+p02+p41+p31+p21+p11+p01|p43+p33+p23+p13+p03+p42+p32+p22+p12+p02+p41+p31+p21+p11+p01+p40+p30+p20+p10+p00|
 
-    paddw xmm0, xmm10 ; xmm0 = |p47+p37+p27+p17+p07+p43+p33+p23+p13+p03|p46+p36+p26+p16+p06+p43+p33+p23+p13+p03+p42+p32+p22+p12+p02|p45+p35+p25+p15+p05+p43+p33+p23+p13+p03+p42+p32+p22+p12+p02+p41+p31+p21+p11+p01|sumargb22|
-    pslldq xmm10, bs_dword ; xmm10 = |p46+p36+p26+p16+p06|p45+p35+p25+p15+p05|p44+p34+p24+p14+p04|0|
+    paddd xmm0, xmm10 ; xmm0 = |p47+p37+p27+p17+p07+p43+p33+p23+p13+p03|p46+p36+p26+p16+p06+p43+p33+p23+p13+p03+p42+p32+p22+p12+p02|p45+p35+p25+p15+p05+p43+p33+p23+p13+p03+p42+p32+p22+p12+p02+p41+p31+p21+p11+p01|sumargb22|
+    pslldq xmm10, s_dword ; xmm10 = |p46+p36+p26+p16+p06|p45+p35+p25+p15+p05|p44+p34+p24+p14+p04|0|
     paddd xmm0, xmm10 ; xmm0 = |p47+p37+p27+p17+p07+p46+p36+p26+p16+p06+p43+p33+p23+p13+p03|p46+p36+p26+p16+p06+p45+p35+p25+p15+p05+p43+p33+p23+p13+p03+p42+p32+p22+p12+p02|sumargb23|sumargb22|
-    pslldq xmm10, bs_dword ; xmm10 = |p45+p35+p25+p15+p05|p44+p34+p24+p14+p04|0|
+    pslldq xmm10, s_dword ; xmm10 = |p45+p35+p25+p15+p05|p44+p34+p24+p14+p04|0|
     paddd xmm0, xmm10 ; xmm0 = |p47+p37+p27+p17+p07+p46+p36+p26+p16+p06+p45+p35+p25+p15+p05+p43+p33+p23+p13+p03|sumargb24|sumargb23|sumargb22|
-    pslldq xmm10, bs_dword ; xmm10 = |p44+p34+p24+p14+p04|0|
+    pslldq xmm10, s_dword ; xmm10 = |p44+p34+p24+p14+p04|0|
     paddd xmm0, xmm10 ; xmm0 = |sumargb25|sumargb24|sumargb23|sumargb22|
 
-    pinsrw xmm3, r10d, 00h ; xmm3 = |*|*|*|alpha|
+    pinsrd xmm3, r10d, 00h ; xmm3 = |*|*|*|alpha|
     pshufd xmm3, xmm3, 00h ; xmm3 = |alpha|alpha|alpha|alpha| 
 
     pmulld xmm0, xmm3 ; xmm0 = |alpha*sumargb25|alpha*sumargb24|alpha*sumargb23|alpha*sumargb22| Tiene sentido porque sumargb25 no ocupa los bits mas significativos..
@@ -231,13 +231,13 @@ ldr_asm:
     ; xmm15 = |a25|r25|g25|b25|a24|r24|g24|b24|a23|r23|g23|b23|a22|r22|g22|b22| Es el dato principal.
     movdqa xmm3, xmm15
     pslld xmm3, 3*bs_byte ; xmm3 = |b25|0|b24|0|b23|0|b22|0|
-    psrld xmm3, 3*bs_byte ; xmm3 = |b25|b24|b23|b22|
+    psrld xmm3, 3*bs_byte ; xmm3 = |0|b25|0|b24|0|b23|0|b22|
     movdqa xmm4, xmm15
     pslld xmm4, 2*bs_byte ; xmm4 = |g25|b25|0|g24|b24|0|g23|b23|0|g22|b22|0|
-    psrld xmm4, 3*bs_byte ; xmm4 = |g25|g24|g23|g22|
+    psrld xmm4, 3*bs_byte ; xmm4 = |0|g25|0|g24|0|g23|0|g22|
     movdqa xmm10, xmm15
     pslld xmm10, 1*bs_byte ; xmm10 = |r25|g25|b25|0|r24|g24|b24|0|r23|g23|b23|0|r22|g22|b22|0|
-    psrld xmm10, 3*bs_byte ; xmm10 = |r25|r24|r23|r22|
+    psrld xmm10, 3*bs_byte ; xmm10 = |0|r25|0|r24|0|r23|0|r22|
 
     pmulld xmm0, xmm3 ; xmm0 = |alpha*sumargb25*b25|..|alpha*sumargb22*b22|
     pmulld xmm1, xmm4 ; xmm1 = |alpha*sumargb25*g25|..|alpha*sumargb22*g22|
@@ -251,9 +251,9 @@ ldr_asm:
     paddd xmm1, xmm4 ; xmm1 = |g25*max+alpha*sumargb25*g25|..|g22*max+alpha*sumargb22*g22|
     paddd xmm2, xmm10  ; xmm2 = |r25*max+alpha*sumargb25*r25|..|r22*max+alpha*sumargb22*r22|
 
-    cvtpi2ps xmm0, mm0 
-    cvtpi2ps xmm1, mm1 
-    cvtpi2ps xmm2, mm2
+    cvtdq2ps xmm0, xmm0 
+    cvtdq2ps xmm1, xmm1 
+    cvtdq2ps xmm2, xmm2
 
     divps xmm0, xmm13 ; xmm0 = |b25'|..|b22'|
     divps xmm1, xmm13 ; xmm1 = |g25'|..|g22'|
@@ -264,31 +264,30 @@ ldr_asm:
     cvtps2dq xmm2, xmm2
 
     packusdw xmm0, xmm0 ; xmm0 = |b25'|b24'|b23'|b22'|b25'|b24'|b23'|b22'|
-    movdqa xmm3, xmm0
     packusdw xmm1, xmm1 ; xmm1 = |g25'|g24'|g23'|g22'|g25'|g24'|g23'|g22'|
     pshufhw xmm0, xmm0, 11111010b ; xmm0 = |b25'|b25'|b24'|b24'|b25'|b24'|b23'|b22'|
-    pshufhw xmm0, xmm0, 01010000b ; xmm0 = |b25'|b25'|b24'|b24'|b23'|b23'|b22'|b22'|
+    pshuflw xmm0, xmm0, 01010000b ; xmm0 = |b25'|b25'|b24'|b24'|b23'|b23'|b22'|b22'|
     pshufhw xmm1, xmm1, 11111010b ; xmm1 = |g25'|g25'|g24'|g24'|g25'|g24'|g23'|g22'|
-    pshufhw xmm1, xmm1, 01010000b ; xmm1 = |g25'|g25'|g24'|g24'|g23'|g23'|g22'|g22'|
+    pshuflw xmm1, xmm1, 01010000b ; xmm1 = |g25'|g25'|g24'|g24'|g23'|g23'|g22'|g22'|
     psrld xmm0, bs_word ; xmm0 = |0|b25'|0|b24'|0|b23'|0|b22'|
     pslld xmm1, bs_word ; xmm0 = |g25'|0|g24'|0|g23'|0|g22'|0|
     paddw xmm0, xmm1 ; xmm0 = |g25'|b25'|g24'|b24'|g23'|b23'|g22'|b22'|
     packuswb xmm0, xmm0 ; xmm0 = |g25'|b25'|g24'|b24'|g23'|b23'|g22'|b22'|g25'|b25'|g24'|b24'|g23'|b23'|g22'|b22'|
     pshufhw xmm0, xmm0, 11111010b ; xmm0 = |g25'|b25'|g25'|b25'|g24'|b24'|g24'|b24'|g25'|b25'|g24'|b24'|g23'|b23'|g22'|b22'|
-    pshufhw xmm0, xmm0, 01010000b ; xmm0 = |g25'|b25'|g25'|b25'|g24'|b24'|g24'|b24'|g23'|b23'|g23'|b23'|g22'|b22'|g22'|b22'|
+    pshuflw xmm0, xmm0, 01010000b ; xmm0 = |g25'|b25'|g25'|b25'|g24'|b24'|g24'|b24'|g23'|b23'|g23'|b23'|g22'|b22'|g22'|b22'|
     psrld xmm0, bs_word ; xmm0 = |0|g25'|b25'|0|g24'|b24'|0|g23'|b23'|0|g22'|b22'|   
-    packuswb xmm2, xmm2 ; xmm2 = |r25'|r24'|r23'|r22'|r25'|r24'|r23'|r22'|
+    packusdw xmm2, xmm2 ; xmm2 = |r25'|r24'|r23'|r22'|r25'|r24'|r23'|r22'|
     pshufhw xmm2, xmm2, 11111010b ; xmm2 = |r25'|r25'|r24'|r24'|r25'|r24'|r23'|r22'|
-    pshufhw xmm2, xmm2, 01010000b ; xmm2 = |r25'|r25'|r24'|r24'|r23'|r23'|r22'|r22'|
+    pshuflw xmm2, xmm2, 01010000b ; xmm2 = |r25'|r25'|r24'|r24'|r23'|r23'|r22'|r22'|
     psrld xmm2, bs_word ; xmm2 = |0|r25'|0|r24'|0|r23'|0|r22'|
     packuswb xmm2, xmm2 ; xmm2 = |0|r25'|0|r24'|0|r23'|0|r22'|0|r25'|0|r24'|0|r23'|0|r22'|
     pshufhw xmm2, xmm2, 11111010b ; xmm2 = |0|r25'|0|r25'|0|r24'|0|r24'|0|r25'|0|r24'|0|r23'|0|r22'|
-    pshufhw xmm2, xmm2, 01010000b ; xmm2 = |0|r25'|0|r25'|0|r24'|0|r24'|0|r23'|0|r23'|0|r22'|0|r22'|
+    pshuflw xmm2, xmm2, 01010000b ; xmm2 = |0|r25'|0|r25'|0|r24'|0|r24'|0|r23'|0|r23'|0|r22'|0|r22'|
     pslld xmm2, bs_word ; xmm2 = |0|r25'|0|0|0|r24'|0|0|0|r23'|0|0|0|r22'|0|0|
-    paddd xmm0, xmm2 ;Queda  xmm0 = |0|r25'|g25'|b25'|0|r24'|g24'|b24'|0|r23'|g23'|b23'|0|r22'|g22'|b22'|   
+    paddb xmm0, xmm2 ; Queda  xmm0 = |0|r25'|g25'|b25'|0|r24'|g24'|b24'|0|r23'|g23'|b23'|0|r22'|g22'|b22'|   
     psrld xmm15, 3*bs_byte ; xmm15 = |0|0|0|a25|0|0|0|a24|0|0|0|a23|0|0|0|a22|
     pslld xmm15, 3*bs_byte ; xmm15 = |a25|0|0|0|a24|0|0|0|a23|0|0|0|a22|0|0|0|
-    paddd xmm0, xmm15 ; xmm15 = |a25|r25'|g25'|b25'|a24|r24'|g24'|b24'|a23|r23'|g23'|b23'|a22|r22'|g22'|b22'|
+    paddb xmm0, xmm15 ; xmm15 = |a25|r25'|g25'|b25'|a24|r24'|g24'|b24'|a23|r23'|g23'|b23'|a22|r22'|g22'|b22'|
 
     mov rbx, rsi
     add rbx, r9
@@ -357,8 +356,6 @@ ldr_asm:
     movdqa xmm2, xmm7
     movdqa xmm3, xmm8
     movdqa xmm4, xmm9
-
-    ;No se si esto es buena idea despues de lo destrozados que quedaron los registros
 
     lea rbx, [rdi+r12*s_pixel+s_xmm]
     movdqu xmm5, [rbx] ; xmm1 = |a07|r07|g07|b07|a06|r06|g06|b06|a05|r05|g05|b05|a04|r04|g04|b04|
