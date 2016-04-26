@@ -40,13 +40,18 @@ cropflip_asm:
 
     shl r12, 2 ; Convertimos el tamx de pixeles en tamx de bytes.
 
+    mov r10d, ecx
+    sub r10d, r13d
+
+
+
     ; rax = indice fila
     ; rbx = indice columna
 
     ; Nos movemos a la posicion de la imagen fuente.
     xor rax, rax
     mov eax, ecx
-    sub eax, r15d
+    sub eax, r10d
     mul r8d
     add rdi, rax
     lea rdi, [rdi + r14 * BYTESXPIXEL]
