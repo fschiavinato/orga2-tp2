@@ -6,10 +6,10 @@
 #include "../tp2.h"
 
 void sepia_asm    (unsigned char *src, unsigned char *dst, int cols, int filas,
-                      int src_row_size, int dst_row_size);
+                      int src_row_size, int dst_row_size, int alfa);
 
 void sepia_c    (unsigned char *src, unsigned char *dst, int cols, int filas,
-                      int src_row_size, int dst_row_size);
+                      int src_row_size, int dst_row_size, int alfa);
 
 typedef void (sepia_fn_t) (unsigned char*, unsigned char*, int, int, int, int, int);
 

@@ -52,13 +52,9 @@ cropflip_asm:
 
     ; Nos movemos a la posicion de la imagen fuente.
     xor rax, rax
-<<<<<<< HEAD
-    mov eax, ecx
-    sub eax, r10d
-=======
     add eax, r15d
     add eax, r13d
->>>>>>> 84196032506b5f6270a9b981c052c3ae82c85ed7
+    dec eax
     mul r8d
     add rdi, rax
     lea rdi, [rdi + r14 * BYTESXPIXEL]
