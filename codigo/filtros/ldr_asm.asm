@@ -22,17 +22,17 @@ max_f: dd vmax_f, vmax_f, vmax_f, vmax_f
 
 section .text
 ;void ldr_asm    (
-	;unsigned char *src,
-	;unsigned char *dst,
-	;int filas,
-	;int cols,
-	;int src_row_size,
-	;int dst_row_size,
-	;int alpha)
+    ;unsigned char *src,
+    ;unsigned char *dst,
+    ;int filas,
+    ;int cols,
+    ;int src_row_size,
+    ;int dst_row_size,
+    ;int alpha)
 ;   rdi = src
 ;   rsi = dst
-;   edx = filas
-;   ecx = cols
+;   edx = filas (columnas)
+;   ecx = cols (filas)
 ;   r8d = src_row_size
 ;   r9d = dst_row_size
 ;   rbp+8 = alpha
@@ -57,10 +57,12 @@ ldr_asm:
     mov r10d, [alpha]
     xor r14, r14
     xor r15, r15
-    mov r14d, edx ; filas
-    mov r15d, ecx ; columnas
-    sub r14, 2 ; Restamos 2 para obtener en que indice fila tenemos que dejar de procesar.
-    sub r15, 4 ; Restamos 4 para obtener en que indice columna tenemos que dejar de procesar. Procesamos desfasado a 2, o sea cuando rdi es cero procesamos los pixeles {(i,2),(i,3),(i,4),(i,5)}.
+    mov r14d, edx ; filas (columnas)
+    mov r15d, ecx ; columnas (filas)
+    ;sub r14, 2 ; Restamos 2 para obtener en que indice fila tenemos que dejar de procesar.
+    ;sub r15, 4 ; Restamos 4 para obtener en que indice columna tenemos que dejar de procesar. Procesamos desfasado a 2, o sea cuando rdi es cero procesamos los pixeles {(i,2),(i,3),(i,4),(i,5)}.
+    sub r14, 8
+    sub r15, 2
 
     xor r11, r11 ; indice fila
     xor r12, r12 ; indice columna
@@ -71,8 +73,8 @@ ldr_asm:
     ; xmm13 y xmm14 no los vamos a tocar en todo el ciclo
 .loop:
 .borde_izq:
-    cmp r12d, 0
-    jne .borde_inf
+    cmp r12d, 02h
+    jge .borde_inf
     mov r13, [rdi+r12*s_pixel]
     mov [rsi+r12*s_pixel], r13
 
@@ -83,7 +85,7 @@ ldr_asm:
     movdqu [rsi+r12*s_pixel], xmm0
 
 .borde_sup:
-    cmp r11d, r14d 
+    cmp r11d, r15d ;r14d
     jl .borde_der
     movdqu xmm0, [rdi+r12*s_pixel]
     movdqu [rsi+r12*s_pixel], xmm0
@@ -91,8 +93,8 @@ ldr_asm:
     jmp .fin_iteracion
 
 .borde_der:
-    cmp r12d, r15d
-    jne .procesar
+    cmp r12d, r14d ;r15d
+    jle .procesar
     mov r13, [rdi+r12*s_pixel+2*s_pixel]
     mov [rsi+r12*s_pixel+2*s_pixel], r13
     add r12d, pixelxit
@@ -297,13 +299,13 @@ ldr_asm:
 
     add r12d, pixelxit
 .fin_iteracion:
-    cmp r12d, ecx
+    cmp r12d, edx
     jl .loop
     xor r12, r12
     inc r11
     add rdi, r8
     add rsi, r9
-    cmp r11d, edx
+    cmp r11d, ecx
     jl .loop
 
 .fin:
@@ -380,4 +382,3 @@ ldr_asm:
     add rbx, r8
     movdqu xmm9, [rbx] ; xmm9 = |a47|r47|g47|b47|a46|r46|g46|b46|a45|r45|g45|b45|a44|r44|g44|b44|
     jmp .cargado
-
