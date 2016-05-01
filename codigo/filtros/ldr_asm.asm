@@ -22,13 +22,13 @@ max_f: dd vmax_f, vmax_f, vmax_f, vmax_f
 
 section .text
 ;void ldr_asm    (
-	;unsigned char *src,
-	;unsigned char *dst,
-	;int filas,
-	;int cols,
-	;int src_row_size,
-	;int dst_row_size,
-	;int alpha)
+    ;unsigned char *src,
+    ;unsigned char *dst,
+    ;int filas,
+    ;int cols,
+    ;int src_row_size,
+    ;int dst_row_size,
+    ;int alpha)
 ;   rdi = src
 ;   rsi = dst
 ;   edx = cols
@@ -71,15 +71,15 @@ ldr_asm:
     ; xmm13 y xmm14 no los vamos a tocar en todo el ciclo
 .loop:
 .borde_izq:
-    cmp r12d, 0x00
-    jne .borde_inf
-    mov r13, [rdi+r12*s_pixel]
+    cmp r12d, 0x02
+    jge .borde_inf
+    mov r13, [rdi+r12*s_pixel] ; Cargamos 2 veces los primeros dos pixeles. Lo que perdemos en esos dos accesos lo ganamos en sencillez.
     mov [rsi+r12*s_pixel], r13
 
 .borde_inf:
     cmp r11d, 0x02
     jge .borde_sup
-    movdqu xmm0, [rdi+r12*s_pixel]
+    movdqu xmm0, [rdi+r12*s_pixel] ; Como arriba, cargamos 2 veces xmm0. No suponemos que sea tan grave porque la sencillez del código lo compensa.
     movdqu [rsi+r12*s_pixel], xmm0
 
 .borde_sup:
@@ -377,4 +377,3 @@ ldr_asm:
     add rbx, r8
     movdqu xmm9, [rbx] ; xmm9 = |a47|r47|g47|b47|a46|r46|g46|b46|a45|r45|g45|b45|a44|r44|g44|b44|
     jmp .cargado
-
