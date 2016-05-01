@@ -1,0 +1,16 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Objetivos generales}{2}
+\contentsline {section}{\numberline {2}Contexto}{2}
+\contentsline {paragraph}{\textbf {Titulo del parrafo} }{2}
+\contentsline {section}{\numberline {3}Enunciado y solucion}{2}
+\contentsline {section}{\numberline {4}Descripciones}{2}
+\contentsline {subsection}{\numberline {4.1}Cropflip}{2}
+\contentsline {paragraph}{\textbf {Aridad}}{2}
+\contentsline {paragraph}{\textbf {Decripcion de cropflip.c}}{2}
+\contentsline {paragraph}{\textbf {Decripcion de cropflip.asm}}{3}
+\contentsline {subsection}{\numberline {4.2}Sepia}{4}
+\contentsline {paragraph}{\textbf {Aridad}}{4}
+\contentsline {paragraph}{\textbf {Decripcion de sepia.c}}{4}
+\contentsline {paragraph}{\textbf {Decripcion de sepia.asm}}{4}
+\contentsline {subsection}{\numberline {4.3}LDR}{6}
+\contentsline {section}{\numberline {5}Conclusiones y trabajo futuro}{6}
