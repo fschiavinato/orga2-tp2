@@ -31,8 +31,8 @@ section .text
 	;int alpha)
 ;   rdi = src
 ;   rsi = dst
-;   edx = filas
-;   ecx = cols
+;   edx = cols
+;   ecx = filas
 ;   r8d = src_row_size
 ;   r9d = dst_row_size
 ;   rbp+8 = alpha
@@ -57,8 +57,8 @@ ldr_asm:
     mov r10d, [alpha]
     xor r14, r14
     xor r15, r15
-    mov r14d, edx ; filas
-    mov r15d, ecx ; columnas
+    mov r14d, ecx ; filas
+    mov r15d, edx ; columnas
     sub r14, 2 ; Restamos 2 para obtener en que indice fila tenemos que dejar de procesar.
     sub r15, 4 ; Restamos 4 para obtener en que indice columna tenemos que dejar de procesar. Procesamos desfasado a 2, o sea cuando rdi es cero procesamos los pixeles {(i,2),(i,3),(i,4),(i,5)}.
 
@@ -71,13 +71,13 @@ ldr_asm:
     ; xmm13 y xmm14 no los vamos a tocar en todo el ciclo
 .loop:
 .borde_izq:
-    cmp r12d, 0
+    cmp r12d, 0x00
     jne .borde_inf
     mov r13, [rdi+r12*s_pixel]
     mov [rsi+r12*s_pixel], r13
 
 .borde_inf:
-    cmp r11d, 02h
+    cmp r11d, 0x02
     jge .borde_sup
     movdqu xmm0, [rdi+r12*s_pixel]
     movdqu [rsi+r12*s_pixel], xmm0
@@ -92,7 +92,7 @@ ldr_asm:
 
 .borde_der:
     cmp r12d, r15d
-    jne .procesar
+    jl .procesar
     mov r13, [rdi+r12*s_pixel+2*s_pixel]
     mov [rsi+r12*s_pixel+2*s_pixel], r13
     add r12d, pixelxit
@@ -243,25 +243,22 @@ ldr_asm:
     pmulld xmm1, xmm4 ; xmm1 = |alpha*sumargb25*g25|..|alpha*sumargb22*g22|
     pmulld xmm2, xmm10 ; xmm2 = |alpha*sumargb25*r25|..|alpha*sumargb22*r22|
 
-    pmulld xmm3, xmm14 ; xmm3 = |b25*max|b24*max|b23*max|b22*max| 
-    pmulld xmm4, xmm14 ; xmm4 = |g25*max|g24*max|g23*max|g22*max|
-    pmulld xmm10, xmm14 ; xmm10 = |r25*max|r24*max|r23*max|r22*max|
-
-    paddd xmm0, xmm3 ; xmm0 = |b25*max+alpha*sumargb25*b25|..|b22*max+alpha*sumargb22*b22|
-    paddd xmm1, xmm4 ; xmm1 = |g25*max+alpha*sumargb25*g25|..|g22*max+alpha*sumargb22*g22|
-    paddd xmm2, xmm10  ; xmm2 = |r25*max+alpha*sumargb25*r25|..|r22*max+alpha*sumargb22*r22|
 
     cvtdq2ps xmm0, xmm0 
     cvtdq2ps xmm1, xmm1 
     cvtdq2ps xmm2, xmm2
 
-    divps xmm0, xmm13 ; xmm0 = |b25'|..|b22'|
-    divps xmm1, xmm13 ; xmm1 = |g25'|..|g22'|
-    divps xmm2, xmm13 ; xmm2 = |r25'|..|r22'|
+    divps xmm0, xmm13 ; xmm0 = |alpha*sumargb25*b25/max|..|alpha*sumargb25*b22/max|
+    divps xmm1, xmm13 ; xmm1 = |alpha*sumargb25*g25/max|..|alpha*sumargb25*g22/max|
+    divps xmm2, xmm13 ; xmm2 = |alpha*sumargb25*r25/max|..|alpha*sumargb25*r22/max|
 
     cvtps2dq xmm0, xmm0 ; lo mismo que en linea 212
     cvtps2dq xmm1, xmm1
     cvtps2dq xmm2, xmm2
+
+    paddd xmm0, xmm3 ; xmm0 = |b25+alpha*sumargb25*b25/max|..|b22+alpha*sumargb22*b22/max|
+    paddd xmm1, xmm4 ; xmm1 = |g25+alpha*sumargb25*g25/max|..|g22+alpha*sumargb22*g22/max|
+    paddd xmm2, xmm10  ; xmm2 = |r25+alpha*sumargb25*r25/max|..|r22+alpha*sumargb22*r22/max|
 
     packusdw xmm0, xmm0 ; xmm0 = |b25'|b24'|b23'|b22'|b25'|b24'|b23'|b22'|
     packusdw xmm1, xmm1 ; xmm1 = |g25'|g24'|g23'|g22'|g25'|g24'|g23'|g22'|
@@ -297,13 +294,13 @@ ldr_asm:
 
     add r12d, pixelxit
 .fin_iteracion:
-    cmp r12d, ecx
+    cmp r12d, edx
     jl .loop
     xor r12, r12
     inc r11
     add rdi, r8
     add rsi, r9
-    cmp r11d, edx
+    cmp r11d, ecx
     jl .loop
 
 .fin:

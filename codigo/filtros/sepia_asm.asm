@@ -56,6 +56,8 @@ sepia_asm:
 .loop:
     movdqu xmm0, [rdi + rbx] ; xmm0 = | a0 | r0 | g0 | b0 | a1 | r1 | g1 | b1 | a2 | r2 | g2 | b2 | a3 | r3 | g3 | b3 |
     movdqa xmm1, xmm0 ; xmm1 = xmm0
+    movdqu xmm9, xmm0 ; xmm9 = xmm0
+
     punpckhbw xmm0, xmm8 ; xmm0 = | a0 | r0 | g0 | b0 | a1 | r1 | g1 | b1 |
     punpcklbw xmm1, xmm8 ; xmm1 = | a2 | r2 | g2 | b2 | a3 | r3 | g3 | b3 |
     movdqa xmm2, xmm0
@@ -82,11 +84,11 @@ sepia_asm:
     packuswb xmm2, xmm4 ; xmm2 = | r2' | r3' | r0' | r1' | r2' | r3' | r0' | r1' | g2' | g3' | g0' | g1' | b2' | b3' | b0' | b1' |
     pshufb xmm2, xmm7 ; xmm2 = |  0  | r0' | g0' | b0' |  0  | r1' | g1' | b1' |  0  | r2' | g2' | b2' |  0  | r3' | g3' | b3' |
 
-    psrld xmm0, bs_byte*3 ; xmm0 = | 0 | 0 | 0 | a0 | 0 | 0 | 0 | a1 | 0 | 0 | 0 | a2 | 0 | 0 | 0 | a3 |
-    pslld xmm0, bs_byte*3 ; xmm0 = | a0 | 0 | 0 | 0 | a1 | 0 | 0 | 0 | a2 | 0 | 0 | 0 | a3 | 0 | 0 | 0 |
+    psrld xmm9, bs_byte*3 ; xmm9 = | 0 | 0 | 0 | a0 | 0 | 0 | 0 | a1 | 0 | 0 | 0 | a2 | 0 | 0 | 0 | a3 |
+    pslld xmm9, bs_byte*3 ; xmm9 = | a0 | 0 | 0 | 0 | a1 | 0 | 0 | 0 | a2 | 0 | 0 | 0 | a3 | 0 | 0 | 0 |
 
-    paddb xmm0, xmm2 ; xmm0 = | a0 | r0' | g0' | b0' | a1 | r1' | g1' | b1' | a2 | r2' | g2' | b2' | a3 | r3' | g3' | b3' |
-    movdqu [rsi + rbx], xmm0
+    paddb xmm9, xmm2 ; xmm9 = | a0 | r0' | g0' | b0' | a1 | r1' | g1' | b1' | a2 | r2' | g2' | b2' | a3 | r3' | g3' | b3' |
+    movdqu [rsi + rbx], xmm9
     
     add rbx, BYTESXPIXEL * PIXELXITERACION
     cmp rbx, r8

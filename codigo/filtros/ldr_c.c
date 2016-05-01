@@ -46,9 +46,9 @@ void ldr_c    (
                 g = r;
                 b = r;
 
-                r = (r * p_s->r + ((long long) p_s->r ) * MAXSUM) / MAXSUM;
-                g = (g * p_s->g + ((long long) p_s->g ) * MAXSUM) / MAXSUM;
-                b = (b * p_s->b + ((long long) p_s->b ) * MAXSUM) / MAXSUM;
+                r = r * p_s->r / MAXSUM + p_s->r;
+                g = g * p_s->g / MAXSUM + p_s->g;
+                b = b * p_s->b / MAXSUM + p_s->b;
 
                 p_d->r = (unsigned char) MAX(MIN(r, UCHAR_MAX), 0);
                 p_d->g = (unsigned char) MAX(MIN(g, UCHAR_MAX), 0);

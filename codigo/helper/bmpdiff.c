@@ -131,7 +131,7 @@ int main(int argc, char* argv[]){
 
               dataR[pos+0] = cmp(R1,R2,i,j,"R",&opt);
               dataR[pos+1] = dataR[pos+0];
-              dataR[pos+2] = dataR[pos+30];
+              dataR[pos+2] = dataR[pos+0];
               dataR[pos+3] = 255;
 
               dataG[pos+0] = cmp(G1,G2,i,j,"G",&opt);

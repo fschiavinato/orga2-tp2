@@ -26,9 +26,9 @@ void sepia_c    (
             suma += p_s->g;
             suma += p_s->r;
 
-            p_d->b = (unsigned short) ((suma * 2) / 10);
+            p_d->b = (unsigned short) (suma / 5);
             p_d->g = (unsigned short) ((suma * 3) / 10);
-            suma = ((suma * 5) / 10);
+            suma = suma >> 1;
             if(suma > UCHAR_MAX) p_d->r = UCHAR_MAX;
             else p_d->r = suma;
             p_d->a = p_s->a;
