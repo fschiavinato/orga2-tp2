@@ -1,19 +1,19 @@
 \select@language {spanish}
 \contentsline {section}{\numberline {1}Objetivos generales}{2}
 \contentsline {paragraph}{}{2}
-\contentsline {section}{\numberline {2}Enunciado y solucion}{2}
+\contentsline {section}{\numberline {2}Enunciado y soluci\IeC {\'o}n}{2}
 \contentsline {section}{\numberline {3}Descripciones}{2}
 \contentsline {subsection}{\numberline {3.1}Cropflip}{2}
 \contentsline {paragraph}{\textbf {Aridad}}{2}
-\contentsline {paragraph}{\textbf {Decripcion de cropflip.c}}{2}
-\contentsline {paragraph}{\textbf {Decripcion de cropflip.asm}}{3}
+\contentsline {paragraph}{\textbf {Descripcion de cropflip.c}}{2}
+\contentsline {paragraph}{\textbf {Descripcion de cropflip.asm}}{2}
 \contentsline {subsection}{\numberline {3.2}Sepia}{3}
 \contentsline {paragraph}{\textbf {Aridad}}{3}
-\contentsline {paragraph}{\textbf {Decripcion de sepia.c}}{4}
-\contentsline {paragraph}{\textbf {Decripcion de sepia.asm}}{4}
+\contentsline {paragraph}{\textbf {Descripcion de sepia.c}}{4}
+\contentsline {paragraph}{\textbf {Descripcion de sepia.asm}}{4}
 \contentsline {subsection}{\numberline {3.3}LDR}{6}
 \contentsline {paragraph}{\textbf {Aridad}}{6}
 \contentsline {paragraph}{\textbf {Aclaraciones}}{6}
-\contentsline {paragraph}{\textbf {Decripcion de LDR.c}}{6}
-\contentsline {paragraph}{\textbf {Decripcion de LDR.asm}}{7}
-\contentsline {section}{\numberline {4}Conclusiones y trabajo futuro}{12}
+\contentsline {paragraph}{\textbf {Descripcion de LDR.c}}{6}
+\contentsline {paragraph}{\textbf {Descripcion de LDR.asm}}{7}
+\contentsline {section}{\numberline {4}Conclusiones y trabajo futuro}{11}
