@@ -200,7 +200,7 @@ void correr_exp(enum experimentos exp, int tm, int step, int n, int ldr_alpha, i
             }
             mediciones[k] -= start;
         }
-        qsort(mediciones,n, sizeof(int),compare_function);
+        qsort(mediciones,n, sizeof(long long int),compare_function);
         for( k = 0; k < na; k++) {
             avg += mediciones[k];
         }
@@ -210,8 +210,8 @@ void correr_exp(enum experimentos exp, int tm, int step, int n, int ldr_alpha, i
         }
         sd = sd / na;
         sd = sqrt(sd);
-        fprintf(fa, "%d, %llu\n", i, avg / (i*i));
-        fprintf(fs, "%d, %llu\n", i, sd / (i*i));
+        fprintf(fa, "%d, %f, ", i, ((double) avg) / ((double) (i*i)));
+        fprintf(fs, "%d, %f, ", i, ((double) sd) / ((double) (i*i)));
         bmp_delete(img);
         bmp_delete(imgD);
     }
