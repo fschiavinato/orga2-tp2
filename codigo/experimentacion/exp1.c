@@ -5,7 +5,8 @@
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
-#define alpha 0.4
+#define alpha 0.1
+#define PATH "mediciones_exp1/"
 
 int compare_function(const void *a,const void *b) {
     int *x = (int *) a;
@@ -87,54 +88,53 @@ void correr_exp(enum experimentos exp, int tm, int step, int n, int ldr_alpha, i
 
     switch(exp) {
         case aleatorio_cropflip_c:
-            fa = fopen("mediciones/aleatorio_cropflip_c_avg.csv", "w");
-            fs = fopen("mediciones/aleatorio_cropflip_c_sd.csv", "w");
+            fa = fopen(PATH"aleatorio_cropflip_c_avg.csv", "w");
+            fs = fopen(PATH"aleatorio_cropflip_c_sd.csv", "w");
             break;
         case aleatorio_cropflip_asm: 
-            fa = fopen("mediciones/aleatorio_cropflip_asm_avg.csv", "w");
-            fs = fopen("mediciones/aleatorio_cropflip_asm_sd.csv", "w");
+            fa = fopen(PATH"aleatorio_cropflip_asm_avg.csv", "w");
+            fs = fopen(PATH"aleatorio_cropflip_asm_sd.csv", "w");
             break;
         case aleatorio_ldr_asm:
-            fa = fopen("mediciones/aleatorio_ldr_asm_avg.csv", "w");
-            fs = fopen("mediciones/aleatorio_ldr_asm_sd.csv", "w");
+            fa = fopen(PATH"aleatorio_ldr_asm_avg.csv", "w");
+            fs = fopen(PATH"aleatorio_ldr_asm_sd.csv", "w");
             break;
         case aleatorio_ldr_c: 
-            fa = fopen("mediciones/aleatorio_ldr_c_avg.csv", "w");
-            fs = fopen("mediciones/aleatorio_ldr_c_sd.csv", "w");
+            fa = fopen(PATH"aleatorio_ldr_c_avg.csv", "w");
+            fs = fopen(PATH"aleatorio_ldr_c_sd.csv", "w");
             break;
         case aleatorio_sepia_asm:
-            fa = fopen("mediciones/aleatorio_sepia_asm_avg.csv", "w");
-            fs = fopen("mediciones/aleatorio_sepia_asm_sd.csv", "w");
+            fa = fopen(PATH"aleatorio_sepia_asm_avg.csv", "w");
+            fs = fopen(PATH"aleatorio_sepia_asm_sd.csv", "w");
             break;
         case aleatorio_sepia_c:
-            fa = fopen("mediciones/aleatorio_sepia_c_avg.csv", "w");
-            fs = fopen("mediciones/aleatorio_sepia_c_sd.csv", "w");
+            fa = fopen(PATH"aleatorio_sepia_c_avg.csv", "w");
+            fs = fopen(PATH"aleatorio_sepia_c_sd.csv", "w");
             break;
         case constante_cropflip_c:
-            fa = fopen("mediciones/constante_cropflip_c_avg.csv", "w");
-            fs = fopen("mediciones/constante_cropflip_c_sd.csv", "w");
+            fa = fopen(PATH"constante_cropflip_c_avg.csv", "w");
+            fs = fopen(PATH"constante_cropflip_c_sd.csv", "w");
             break;
         case constante_cropflip_asm: 
-            fa = fopen("mediciones/constante_cropflip_asm_avg.csv", "w");
-            fs = fopen("mediciones/constante_cropflip_asm_sd.csv", "w");
+            fa = fopen(PATH"constante_cropflip_asm_avg.csv", "w");
+            fs = fopen(PATH"constante_cropflip_asm_sd.csv", "w");
             break;
         case constante_ldr_asm:
-            fa = fopen("mediciones/constante_ldr_asm_avg.csv", "w");
-            fs = fopen("mediciones/constante_ldr_asm_sd.csv", "w");
+            fa = fopen(PATH"constante_ldr_asm_avg.csv", "w");
+            fs = fopen(PATH"constante_ldr_asm_sd.csv", "w");
             break;
         case constante_ldr_c: 
-            fa = fopen("mediciones/constante_ldr_c_avg.csv", "w");
-            fs = fopen("mediciones/constante_ldr_c_sd.csv", "w");
+            fa = fopen(PATH"constante_ldr_c_avg.csv", "w");
+            fs = fopen(PATH"constante_ldr_c_sd.csv", "w");
             break;
         case constante_sepia_asm:
-            fa = fopen("mediciones/constante_sepia_asm_avg.csv", "w");
-            fs = fopen("mediciones/constante_sepia_asm_sd.csv", "w");
+            fa = fopen(PATH"constante_sepia_asm_avg.csv", "w");
+            fs = fopen(PATH"constante_sepia_asm_sd.csv", "w");
             break;
         case constante_sepia_c:
-            fa = fopen("mediciones/constante_sepia_c_avg.csv", "w");
-            fs = fopen("mediciones/constante_sepia_c_sd.csv", "w");
+            fa = fopen(PATH"constante_sepia_c_avg.csv", "w");
+            fs = fopen(PATH"constante_sepia_c_sd.csv", "w");
             break;
-
     }
     for( i = step; i <= tm; i+= step) {
         for( j = step; j <= tm; j+= step) {
@@ -210,13 +210,13 @@ void correr_exp(enum experimentos exp, int tm, int step, int n, int ldr_alpha, i
             }
             sd = sd / na;
             sd = sqrt(sd);
-            fprintf(fa, "%llu, ", avg);
-            fprintf(fs, "%llu, ", sd);
+            fprintf(fa, "%llu, ", avg / (i*j));
+            fprintf(fs, "%llu, ", sd / (i*j));
             bmp_delete(img);
             bmp_delete(imgD);
         }
-        fprintf(fa, "\n", avg);
-        fprintf(fs, "\n", sd);
+        fprintf(fa, "\n");
+        fprintf(fs, "\n");
     }
     fclose(fa);
     fclose(fs);
