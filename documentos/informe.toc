@@ -18,6 +18,6 @@
 \contentsline {paragraph}{\textbf {Descripcion de LDR.asm}}{8}
 \contentsline {section}{\numberline {4}Experimentaci\IeC {\'o}n}{12}
 \contentsline {subsection}{\numberline {4.1}Cropflip}{13}
-\contentsline {subsection}{\numberline {4.2}Sepia}{14}
-\contentsline {subsection}{\numberline {4.3}LDR}{14}
-\contentsline {section}{\numberline {5}Conclusiones y trabajo futuro}{15}
+\contentsline {subsection}{\numberline {4.2}Sepia}{16}
+\contentsline {subsection}{\numberline {4.3}LDR}{19}
+\contentsline {section}{\numberline {5}Conclusiones y trabajo futuro}{22}
