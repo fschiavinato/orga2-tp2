@@ -30,8 +30,7 @@
 \usepackage{wrapfig}
 \usepackage{listings}
 \lstset{language=C}
-
- \setcounter{secnumdepth}{2}
+\setcounter{secnumdepth}{2}
 \usepackage{underscore}
 \usepackage{caratula}
 \usepackage{url}
@@ -681,8 +680,12 @@ luego usamos pshflw, que hace lo mismo en la parte baja, con inmediato 01010000b
 
 
 \section{Conclusiones y trabajo futuro}
-
-
-
+\hfill \break
+La implementacion de la misma funcion en dos diferentes lenguajes puede generar unas diferencias increibles en performance. Especialmente, si utilizamos las instrucciones SIMD del procesador, hablandole al hardware, su pueden ahorrar ciclos, y recorrer mas rapido elementos multimedia (por ejemplo).
+Las mediciones tienen muchos problemas que deben ser enfrentados para poder dar resultados confiables, y la especificacion de los elementos, asi de las aclaraciones pertinentes en cada caso de como se enfrentaron,  debe ser clara y hecha con una mente calmada y fresca. 
+\hfill \break
+\\
+El trabajo futuro seria encontrar maneras de utilizar mejor el c y el assembler para poder reducir tiempo en el c y complejidad de codeado en el assembler. 
+\hfill \break
 \end{document}
 

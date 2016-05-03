@@ -1,11 +1,133 @@
+
+
+
 \section{Experimentación}
+\hfill \break
 Para cada filtro y en cada experimento usamos dos muestras de imágenes. Una muestra es generada al azar, o sea el valor de cada pixel de la imágen es determinado de forma azarosa, mientras que en la otra todos sus píxeles tienen el mismo valor, típicamente negro (00000000h) salvo que se indique lo contrario. Usamos dos muestras para mostrar dos casos extremos, uno en que los pixeles estan fuertemente relacionados (la imagen constante) y otro en el que no (la imagen aleatoria), y poder ver si hay presente alguna optimización por parte del procesador en alguno de los casos. 
-
+\hfill \break
 Como la variación es muy grande entre mediciones, decidimos realizar 100 de estas por cada muestra. Una vez obtenidos los datos nos quedamos con las 10 más chicas y calculamos el promedio. No podemos asegurar que todos los outliers sean removidos de esta forma, pero consideramos que es un método lo suficientemente estable ya que podamos bastantes valores (el 90\%). 
-
-La métrica que usaremos en todos los casos para comparar la performance de las implementaciones sera ticks por pixel. Consideramos que es una forma justa de comparar dos implementaciones ya que como usan una cantidad de memoria constante (las de Assembler usan solo registros y las de C usan una cantidad fija de variables), lo único que diferencia la performance de ambas es el tiempo de ejecución. Por lo tanto si una implementación requiere menos ticks en la gran mayoria de los casos, es entonces una implementación cuya performance es superior.
+\hfill \break
+La métrica que usaremos en todos los casos para comparar la performance de las implementaciones sera ticks por pixel. Consideramos que es una forma justa de comparar dos implementaciones ya que como usan una cantidad de memoria constante (las de Assembler usan solo registros y las de C usan una cantidad fija de variables), lo único que diferencia la performance de ambas es el tiempo de ejecución. Por lo tanto si una implementación requiere menos ticks en la gran mayoria de los casos, es entonces una implementación cuya performance es superior. Si se nos escapa la palabra rapido, o menos tiempo, nos estamos refiriendo a esto, tambien. 
+\hfill \break
 \subsection{Cropflip}
-Para este filtro realizamos dos experimentos. El primero consta en medir muestras variando el ancho y alto de estas. De aqui podremos observar como influyen ambos parámetros. El segundo experimento consta en tomar muestras cuadradas e ir incrementando el tamaño. Con este experimento queremos determinar si hay alguna caida de performance al incrementar el volumen de los datos. En ambos casos fijamos los parametros para que no haya recorte, ya que recortar es equivalente a aplicarle el filtro una imágen de tamaño más chico. Los resultados los mostramos en los siguientes gráficos:
+\hfill \break
+Para este filtro realizamos dos experimentos. El primero consta en medir muestras variando el ancho y alto de estas. De aqui podremos observar como influyen ambos parámetros. El segundo experimento consta en tomar muestras cuadradas e ir incrementando el tamaño. Con este experimento queremos determinar si hay alguna caida de performance al incrementar el volumen de los datos. En ambos casos fijamos los parametros para que no haya recorte, ya que recortar es equivalente a aplicarle el filtro una imágen de tamaño más chico. (si usamos recorte en alguna descripcion nos estaremos refireindo a imagen de menor tamano)
+\hfill \break
+Hipotesis: Nuestras hipotesis al primer experimento son que al aumentar el ancho y alto de las muestras tomadas, la cantidad de tiempo de las mediciones sera mayor, y, como la implementacion de assmebler procesa de a 4 pixeles y la de c de a uno x ciclo,  el assembler sera 4 veces mas rapido.
+En cuanto al segundo experimento, creemos que incrementar el volumen de los datos a procesar aumente el tiempo de procesamiento, pero deberia mantener la diferencia postulada anteriormente. 
+Una hipotesis adicional en ambos casos es que, como al shiftear en cropflip no se toma en cuenta el color e la imagen, no tendria que haber mucha diferencia entre las imagenes constantes y las generadas aleatoriamente
+
+\hfill \break
+ Los resultados los mostramos en los siguientes gráficos:
+ 
+
+\hfill \break
+
+
+En el primer experimento, podemos notar la diferencia de performance entre el c y assembler viendo las barras de color, que mientras van de 1 a 2,75 en assembler, van de  22.16 a 21.68 es c, varias veces mas (de hecho, mas de cuatro). En el aleatoria assembler, vemos como va aumentando los ticks por pixel a medida que la imagen se hace mas grande. En el aleatorio c, mientras que al principio (por cache sin datos) tarda mas que nunca, luego su diferencia de performance al aumentar la magen es menor a la del assembler, (por cache y por que es un proceso mas uniforme de acceso con una esrtuctura definida (matriz) con un tiempo de acceso, en vez de el recorrido por punteros en assembler. De todas maneras, el assembler es mas efectivo
+
+
+\hfill \break
+
+
+Aqui estan las constantes de assembler y c con este mismo experimento. Al assembler no hay mucha diferencia, pero en el c la hay, tanto que la optimizacion de ticks del aleatorio no es aprovechada.
+\hfill \break
+con respecto al segundo experimento
+
+\hfill \break
+Como podemos ver en el grafico, estan los ticks por pixel de las corridas de assembler y c, dados imagenes cuadradas, donde vamos aumentando su tamano, y realizamos siempre el mismo recorte. 
+Podemos notar que al aumentar el tamano de imagen, los ticks por pixel de todas las implementaciones c aumentan, asi que esa parte de la teoria es correcta. En las implementaciones assembler se da la pecularidad de que el 100 y 1000 tardan menos que el de 10, en parte se debe a la cache, (una implemntacion que es un poco mas grande a 10 aprovecha la cache mas, tal vez 10 es demasiado chico), podemos ver que de 100 en adelante, se cumple para el aleatorio.  
+	En cuanto a la relacion de tiempos entre el c y el assembler, la menor diferencia que hubo fue entre la implementacion de la imagen de 10000x10000, y es un poco menos de 4 veces el tiempo del assembler, pero igualmente una diferencia de 3 veces por lo menos. Como hemos notado antes, no hay bastante diferencia  entre la imagen constante y la no constante en el c, pero nos sorprende la diferencia que se aprecia de este tipo en el assembler en las imagenes.   
+	 
+ \hfill \break
+En conclusion, tanto el usar imagenes mas grandes, como el pedir dos recortes, uno mas grande que otro sobre dos imagenes de igual tamano, hara que los tics de pixeles aumenten. Un recorte de determinado tamano tardara mas en una imagen constante que una aleatoria, pero si aumentamos el tamano de  recorte la diferencia deisminuira. 
+
+\hfill \break
+
+
+\subsection{Sepia}
+
+Para este filtro vamos a realizar dos experimentos. Son los mismos dos experimentos realizados para cropflip, pero con distintas hipotesis.
+\hfill \break
+ 
+   Vamos a decir que el juego de los tamanos de agarrar imagenes cuadradas tenia mas sentido en el cropflip, por lo que solo se hara el analisis con las distintas imagenes constantes y de tamano. 
+   \hfill \break
+   Hipotesis:  NUestras hipotesis son que el tamano de la imagen hace que tarde mas, y que la imagenes constantes son mas rapidas de procesar que las aleatorias.
+   
+   
+   
+   
+   \hfill \break
+   
+   
+   Podemos notar que  el aumento de ticks por pixel en el c de la imagen constante es proporcional a su tamano uniformemente (con este digo, la variacion es constante y proporcionada al incremento), no solo eso, es mas rapido que el assembler, ( o tal vez no, porque aunque la escala de color de assembler es mayor  hay mas cuadrados con menor escala); pero es alucinadamente rapido.eso se debe a tener que replicar el mismo resultado sin tener que hacre cuentas, por acceder siempre a iguales datots, ya el procesador pone el resultado; o por estar en el periodo alto de la curva de la cache, si la entrada fuera mas grande, la cach se empezaria a vaciar y el rendimiento caeria.
+   
+   
+   
+   
+   \hfill \break
+
+ Ahora vemos el comportamiento de las implementaciones con las imagenes aleatorias. La diferencia de tiempos en el caso de c comparado a la  uniforme es muy significativa. (al igual que con la del assembler) Notar 
+que por el contrario, a la implementacion assembler es mas eficiente de esta manera,  por que, como son imagenes de puro negro, las sumas en assembler generalmente tienen que ser saturadas, o lidiar con los carries, o por las multiplicaciones de punto flotante de numeros mas grandes.
+
+
+
+
+
+\hfill \break
+
+
+Conclusiones: El programa c performa mejor si el tamano de imagen es determinado y constante que el assembler, pero en cualquier otro caso el assembler es mucho mas rapido. Las imagenes aleatorias son mas faciles para el assembler que las constantes (negra). 
+
+\hfill \break
+
+
+
+
+
+
+
+\subsection{LDR}
+\hfill \break
+Para este filtro vamos a realizar un experimento. Es el primer  experimento realizado para cropflip, pero con distintas hipotesis.
+
+\hfill \break
+Hipotesis: En este filtro cambiamos paleta, al igual que en sepia, pero el cambio de paleta no es independiente de cada pixel, si no que es afectado por los pixeles rondeantes. Tomando esto en cuenta, nos parece logico pensar que si la imagen es constante, el rendimiento se vera afectado solo por las dimensiones de la imagen, y en el aleatoria el tiempo variara tanto por las dimensiones como por el contenido, pudiendo ser en casos menor a la de la constante. El ldr en asm implementado ahorra muchos usos a memoria por rehusar datos cargados en el ciclo anterior, optimizacion que el asssembler no posee, por lo que el assembler entra la mitad de veces a memoria por fila, lo que, a mayor cantidad de filas, hace que sea menor; en cualquier caso, sera siempre mejor 8 veces (4 por cantidad de pixeles por vez. 4 x memoria).    
+
+
+\hfill \break
+
+
+
+
+Aqui vemos el c y assembler con la figura constante, como podemos nota, el c denuevo de una distribucion bastante uniforme , aunque, comparado con el sepia, en esta ocacion aumentar el tamano aumenta mas la complejidad, si la otra aumentaba por una constante, esta lo hce de manera cuadratica) eso se debe a que la formula realizada requiere pixeles vecinos. Otra diferencia con el sepia es que esta vez los tiempos no fueron magicamnete menores a los del assembler, por, yo creo, lo mismo de antes. 
+El assembler muestra una performance 8 veces mas rapida (de hecho, 16 veces + rapida) y el tiempo del filtro parece casi el mismo sin importar el tamno. Esto se debe a que no elegimos un tamno de imagen lo suficientemente alto, pero que al aumentar como lo hicimos la imagen no se viera afectado en si la rapidez demustra que se optimiza mucho aprovechando los vecinos de veces anteriores.
+\hfill \break
+
+
+Aqui vemos el c y el assembler con la figuras aleatorias, aqui el assembler es incluso mas rapido en la mayoria de los casos, creemos que porque el contenido afecta lo las imagenes, asiendolas mas faciles de usar en cuentas y procesar. En cuanto al c,   las imagenes con pocas columnas o ocas filas son mas rapido, y la discrepancia es menor entre las imagenes grandes que las constante. Esto se debe a que saturamos menos (en c se hace con ifs en vez de instrucciones, que tarda mas) que con una imagen totalmente en negro. 
+\hfill \break
+
+
+
+
+Conclusiones: El tamano de la imagen no es un factor tan grande como pensabamos en este filtro las imagenes aleatorias grandes se procesan mas rapido en  el c que las constantes, pero si se reviertenlos tamnos, tenemos algo parecido. El assembler funciona rapido siempre, pero mas si es aleatoria, y aunque la diferencia es poca, tambien si hay ms filas que columnas si la imagen es mas grande, esto pierde distancia, pero en las mas pequenas se nota).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
