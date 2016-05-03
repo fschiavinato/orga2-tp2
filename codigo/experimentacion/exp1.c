@@ -46,30 +46,30 @@ int main(int argc, char* argv[]) {
     b = atoi(argv[7]);
     a = atoi(argv[8]);
 
-    printf("Aleatorio Cropflip Asm:\n");
-    correr_exp(aleatorio_cropflip_asm, tm, step, n, ldr_alpha, r, g, b, a); 
-    printf("Aleatorio Cropflip C:\n");
-    correr_exp(aleatorio_cropflip_c, tm, step, n, ldr_alpha, r, g, b, a); 
-    printf("Aleatorio Ldr Asm:\n");
-    correr_exp(aleatorio_ldr_asm, tm, step, n, ldr_alpha, r, g, b, a); 
-    printf("Aleatorio Ldr C:\n");
-    correr_exp(aleatorio_ldr_c, tm, step, n, ldr_alpha, r, g, b, a); 
-    printf("Aleatorio Sepia Asm:\n");
-    correr_exp(aleatorio_sepia_asm, tm, step, n, ldr_alpha, r, g, b, a); 
-    printf("Aleatorio Sepia C:\n");
-    correr_exp(aleatorio_sepia_c, tm, step, n, ldr_alpha, r, g, b, a); 
-    printf("Constante Cropflip Asm:\n");
-    correr_exp(constante_cropflip_asm, tm, step, n, ldr_alpha, r, g, b, a); 
-    printf("Constante Cropflip C:\n");
-    correr_exp(constante_cropflip_c, tm, step, n, ldr_alpha, r, g, b, a); 
-    printf("Constante Ldr Asm:\n");
-    correr_exp(constante_ldr_asm, tm, step, n, ldr_alpha, r, g, b, a); 
+    /*printf("Aleatorio Cropflip Asm:\n");*/
+    /*correr_exp(aleatorio_cropflip_asm, tm, step, n, ldr_alpha, r, g, b, a); */
+    /*printf("Aleatorio Cropflip C:\n");*/
+    /*correr_exp(aleatorio_cropflip_c, tm, step, n, ldr_alpha, r, g, b, a); */
+    /*printf("Aleatorio Ldr Asm:\n");*/
+    /*correr_exp(aleatorio_ldr_asm, tm, step, n, ldr_alpha, r, g, b, a); */
+    /*printf("Aleatorio Ldr C:\n");*/
+    /*correr_exp(aleatorio_ldr_c, tm, step, n, ldr_alpha, r, g, b, a); */
+    /*printf("Aleatorio Sepia Asm:\n");*/
+    /*correr_exp(aleatorio_sepia_asm, tm, step, n, ldr_alpha, r, g, b, a); */
+    /*printf("Aleatorio Sepia C:\n");*/
+    /*correr_exp(aleatorio_sepia_c, tm, step, n, ldr_alpha, r, g, b, a); */
+    /*printf("Constante Cropflip Asm:\n");*/
+    /*correr_exp(constante_cropflip_asm, tm, step, n, ldr_alpha, r, g, b, a); */
+    /*printf("Constante Cropflip C:\n");*/
+    /*correr_exp(constante_cropflip_c, tm, step, n, ldr_alpha, r, g, b, a); */
+    /*printf("Constante Ldr Asm:\n");*/
+    /*correr_exp(constante_ldr_asm, tm, step, n, ldr_alpha, r, g, b, a); */
     printf("Constante Ldr C:\n");
     correr_exp(constante_ldr_c, tm, step, n, ldr_alpha, r, g, b, a); 
-    printf("Constante Sepia Asm:\n");
-    correr_exp(constante_sepia_asm, tm, step, n, ldr_alpha, r, g, b, a); 
-    printf("Constante Sepia C:\n");
-    correr_exp(constante_sepia_c, tm, step, n, ldr_alpha, r, g, b, a); 
+    /*printf("Constante Sepia Asm:\n");*/
+    /*correr_exp(constante_sepia_asm, tm, step, n, ldr_alpha, r, g, b, a); */
+    /*printf("Constante Sepia C:\n");*/
+    /*correr_exp(constante_sepia_c, tm, step, n, ldr_alpha, r, g, b, a); */
     printf("Listo!\n");
     return 0;
 
