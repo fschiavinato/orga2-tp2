@@ -72,8 +72,8 @@
 \renewcommand{\footrulewidth}{0.5pt}
 \setlength{\hoffset}{-0.8in}
 \setlength{\textwidth}{16cm}
-%\setlength{\hoffset}{-1.1cm}
-%\setlength{\textwidth}{16cm}
+\setlength{\hoffset}{-1.1cm}
+\setlength{\textwidth}{16cm}
 \setlength{\headsep}{0.5cm}
 \setlength{\textheight}{25cm}
 \setlength{\voffset}{-0.7in}
@@ -93,16 +93,17 @@
 \submateria{Segundo Cuatrimestre de 2014}
 \titulo{Trabajo Práctico II}
 \subtitulo{subtitulo del trabajo}
-\integrante{Nombre}{XXX/XX}{mail}
-\integrante{Nombre}{XXX/XX}{mail}
+\integrante{Alicia Amalia Alvarez Mon}{224/15}{alicia_suerte@hotmail.com}
+\integrante{Franco  Cesar Schiavinato}{586/14}{francocschiavinato@gmail.com}
+\integrante{Martín David Guttman}{686/14}{ mdg_92@yahoo.com.ar}
 
-%\maketitle
+\maketitle
 \newpage
 
 \thispagestyle{empty}
 \vfill
 \begin{abstract}
-En el presente trabajo se describe la problemática de ...
+En el presente trabajo se describe la problemática aplicar los filtros cropflop, sepia y low dinamic range,utilizando un codigo c y un codigo assembler, utilando SIMD. Se provee una descripcion del funcionamiento de los codigos, asi como un analisis de como diferentes variables de input los afectan, experimentando para ver las diferencias que se producen entre las distintas implementaciones.
 \end{abstract}
 
 \thispagestyle{empty}
@@ -666,12 +667,11 @@ luego usamos pshflw, que hace lo mismo en la parte baja, con inmediato 01010000b
 		
 	
 	
-	.
 	
 	
 	
 	
-	 
+
 
 	
 	
@@ -681,7 +681,8 @@ luego usamos pshflw, que hace lo mismo en la parte baja, con inmediato 01010000b
 
 \section{Conclusiones y trabajo futuro}
 \hfill \break
-La implementacion de la misma funcion en dos diferentes lenguajes puede generar unas diferencias increibles en performance. Especialmente, si utilizamos las instrucciones SIMD del procesador, hablandole al hardware, su pueden ahorrar ciclos, y recorrer mas rapido elementos multimedia (por ejemplo).
+La implementacion de la misma funcion en dos diferentes lenguajes puede generar unas diferencias increibles en performance. Especialmente, si utilizamos las instrucciones SIMD del procesador, hablandole al hardware, se pueden ahorrar ciclos, y recorrer mas rapido elementos multimedia (por ejemplo).
+El pasaje a floats deberia evitarse para ganar tiempo, pero al hacer eso perdemos precision. De la misma manera, en el assembler los ciclos consumen muchas mas lineas que en el c. 
 Las mediciones tienen muchos problemas que deben ser enfrentados para poder dar resultados confiables, y la especificacion de los elementos, asi de las aclaraciones pertinentes en cada caso de como se enfrentaron,  debe ser clara y hecha con una mente calmada y fresca. 
 \hfill \break
 \\

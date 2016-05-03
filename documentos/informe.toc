@@ -1,23 +1,23 @@
 \select@language {spanish}
-\contentsline {section}{\numberline {1}Objetivos generales}{2}
-\contentsline {paragraph}{}{2}
-\contentsline {section}{\numberline {2}Enunciado y soluci\IeC {\'o}n}{2}
-\contentsline {section}{\numberline {3}Descripciones}{2}
-\contentsline {subsection}{\numberline {3.1}Cropflip}{2}
-\contentsline {paragraph}{\textbf {Aridad}}{2}
-\contentsline {paragraph}{\textbf {Descripcion de cropflip.c}}{2}
-\contentsline {paragraph}{\textbf {Descripcion de cropflip.asm}}{2}
-\contentsline {subsection}{\numberline {3.2}Sepia}{3}
+\contentsline {section}{\numberline {1}Objetivos generales}{3}
+\contentsline {paragraph}{}{3}
+\contentsline {section}{\numberline {2}Enunciado y soluci\IeC {\'o}n}{3}
+\contentsline {section}{\numberline {3}Descripciones}{3}
+\contentsline {subsection}{\numberline {3.1}Cropflip}{3}
 \contentsline {paragraph}{\textbf {Aridad}}{3}
-\contentsline {paragraph}{\textbf {Descripcion de sepia.c}}{4}
-\contentsline {paragraph}{\textbf {Descripcion de sepia.asm}}{4}
-\contentsline {subsection}{\numberline {3.3}LDR}{6}
-\contentsline {paragraph}{\textbf {Aridad}}{6}
-\contentsline {paragraph}{\textbf {Aclaraciones}}{6}
-\contentsline {paragraph}{\textbf {Descripcion de LDR.c}}{6}
-\contentsline {paragraph}{\textbf {Descripcion de LDR.asm}}{7}
-\contentsline {section}{\numberline {4}Experimentaci\IeC {\'o}n}{11}
-\contentsline {subsection}{\numberline {4.1}Cropflip}{12}
-\contentsline {subsection}{\numberline {4.2}Sepia}{13}
-\contentsline {subsection}{\numberline {4.3}LDR}{13}
-\contentsline {section}{\numberline {5}Conclusiones y trabajo futuro}{14}
+\contentsline {paragraph}{\textbf {Descripcion de cropflip.c}}{3}
+\contentsline {paragraph}{\textbf {Descripcion de cropflip.asm}}{3}
+\contentsline {subsection}{\numberline {3.2}Sepia}{4}
+\contentsline {paragraph}{\textbf {Aridad}}{4}
+\contentsline {paragraph}{\textbf {Descripcion de sepia.c}}{5}
+\contentsline {paragraph}{\textbf {Descripcion de sepia.asm}}{5}
+\contentsline {subsection}{\numberline {3.3}LDR}{7}
+\contentsline {paragraph}{\textbf {Aridad}}{7}
+\contentsline {paragraph}{\textbf {Aclaraciones}}{7}
+\contentsline {paragraph}{\textbf {Descripcion de LDR.c}}{7}
+\contentsline {paragraph}{\textbf {Descripcion de LDR.asm}}{8}
+\contentsline {section}{\numberline {4}Experimentaci\IeC {\'o}n}{12}
+\contentsline {subsection}{\numberline {4.1}Cropflip}{13}
+\contentsline {subsection}{\numberline {4.2}Sepia}{14}
+\contentsline {subsection}{\numberline {4.3}LDR}{14}
+\contentsline {section}{\numberline {5}Conclusiones y trabajo futuro}{15}
