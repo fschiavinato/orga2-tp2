@@ -16,4 +16,6 @@
 \contentsline {paragraph}{\textbf {Aclaraciones}}{6}
 \contentsline {paragraph}{\textbf {Descripcion de LDR.c}}{6}
 \contentsline {paragraph}{\textbf {Descripcion de LDR.asm}}{7}
-\contentsline {section}{\numberline {4}Conclusiones y trabajo futuro}{11}
+\contentsline {section}{\numberline {4}Experimentaci\IeC {\'o}n}{11}
+\contentsline {subsection}{\numberline {4.1}Cropflip}{12}
+\contentsline {section}{\numberline {5}Conclusiones y trabajo futuro}{12}

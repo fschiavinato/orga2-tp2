@@ -1,0 +1,11 @@
+\section{Experimentación}
+Para cada filtro y en cada experimento usamos dos muestras de imágenes. Una muestra es generada al azar, o sea el valor de cada pixel de la imágen es determinado de forma azarosa, mientras que en la otra todos sus píxeles tienen el mismo valor, típicamente negro (00000000h) salvo que se indique lo contrario. Usamos dos muestras para mostrar dos casos extremos, uno en que los pixeles estan fuertemente relacionados (la imagen constante) y otro en el que no (la imagen aleatoria), y poder ver si hay presente alguna optimización por parte del procesador en alguno de los casos. 
+
+Como la variación es muy grande entre mediciones, decidimos realizar 100 de estas por cada muestra. Una vez obtenidos los datos nos quedamos con las 10 más chicas y calculamos el promedio. No podemos asegurar que todos los outliers sean removidos de esta forma, pero consideramos que es un método lo suficientemente estable ya que podamos bastantes valores (el 90\%). 
+
+La métrica que usaremos en todos los casos para comparar la performance de las implementaciones sera ticks por pixel. Consideramos que es una forma justa de comparar dos implementaciones ya que como usan una cantidad de memoria constante (las de Assembler usan solo registros y las de C usan una cantidad fija de variables), lo único que diferencia la performance de ambas es el tiempo de ejecución. Por lo tanto si una implementación requiere menos ticks en la gran mayoria de los casos, es entonces una implementación cuya performance es superior.
+\subsection{Cropflip}
+Para este filtro realizamos dos experimentos. El primero consta en medir muestras variando el ancho y alto de estas. De aqui podremos observar como influyen ambos parámetros. El segundo experimento consta en tomar muestras cuadradas e ir incrementando el tamaño. Con este experimento queremos determinar si hay alguna caida de performance al incrementar el volumen de los datos. En ambos casos fijamos los parametros para que no haya recorte, ya que recortar es equivalente a aplicarle el filtro una imágen de tamaño más chico. Los resultados los mostramos en los siguientes gráficos:
+
+
+

@@ -210,8 +210,8 @@ void correr_exp(enum experimentos exp, int tm, int step, int n, int ldr_alpha, i
         }
         sd = sd / na;
         sd = sqrt(sd);
-        fprintf(fa, "%d, %f, ", i, ((double) avg) / ((double) (i*i)));
-        fprintf(fs, "%d, %f, ", i, ((double) sd) / ((double) (i*i)));
+        fprintf(fa, "%d, %f\n", i, ((double) avg) / ((double) (i*i)));
+        fprintf(fs, "%d, %f\n", i, ((double) sd) / ((double) (i*i)));
         bmp_delete(img);
         bmp_delete(imgD);
     }
