@@ -21,12 +21,10 @@ enum experimentos {
     aleatorio_ldr_c, 
     aleatorio_sepia_asm,
     aleatorio_sepia_c,
-    experimentoa_ldr_asm,
     constante_cropflip_asm,
     constante_cropflip_c, 
     constante_ldr_asm,
-    constante_ldr_c,
-    experimentoc_ldr_asm,
+    constante_ldr_c, 
     constante_sepia_asm,
     constante_sepia_c
 };
@@ -56,8 +54,6 @@ int main(int argc, char* argv[]) {
     /*correr_exp(aleatorio_ldr_asm, tm, step, n, ldr_alpha, r, g, b, a); */
     /*printf("Aleatorio Ldr C:\n");*/
     /*correr_exp(aleatorio_ldr_c, tm, step, n, ldr_alpha, r, g, b, a); */
-    printf("ExperimentoA Ldr Asm:\n");
-    correr_exp(experimentoa_ldr_asm, tm, step, n, ldr_alpha, r, g, b, a); 
     /*printf("Aleatorio Sepia Asm:\n");*/
     /*correr_exp(aleatorio_sepia_asm, tm, step, n, ldr_alpha, r, g, b, a); */
     /*printf("Aleatorio Sepia C:\n");*/
@@ -68,10 +64,8 @@ int main(int argc, char* argv[]) {
     /*correr_exp(constante_cropflip_c, tm, step, n, ldr_alpha, r, g, b, a); */
     /*printf("Constante Ldr Asm:\n");*/
     /*correr_exp(constante_ldr_asm, tm, step, n, ldr_alpha, r, g, b, a); */
-    //printf("Constante Ldr C:\n");
-    //correr_exp(constante_ldr_c, tm, step, n, ldr_alpha, r, g, b, a); 
-    printf("ExperimentoC Ldr Asm:\n");
-    correr_exp(experimentoc_ldr_asm, tm, step, n, ldr_alpha, r, g, b, a); 
+    printf("Constante Ldr C:\n");
+    correr_exp(constante_ldr_c, tm, step, n, ldr_alpha, r, g, b, a); 
     /*printf("Constante Sepia Asm:\n");*/
     /*correr_exp(constante_sepia_asm, tm, step, n, ldr_alpha, r, g, b, a); */
     /*printf("Constante Sepia C:\n");*/
@@ -109,10 +103,6 @@ void correr_exp(enum experimentos exp, int tm, int step, int n, int ldr_alpha, i
             fa = fopen(PATH"aleatorio_ldr_c_avg.csv", "w");
             fs = fopen(PATH"aleatorio_ldr_c_sd.csv", "w");
             break;
-        case experimentoa_ldr_asm: 
-            fa = fopen(PATH"experimentoa_ldr_asm_avg.csv", "w");
-            fs = fopen(PATH"experimenta_ldr_asm_sd.csv", "w");
-            break;    
         case aleatorio_sepia_asm:
             fa = fopen(PATH"aleatorio_sepia_asm_avg.csv", "w");
             fs = fopen(PATH"aleatorio_sepia_asm_sd.csv", "w");
@@ -137,10 +127,6 @@ void correr_exp(enum experimentos exp, int tm, int step, int n, int ldr_alpha, i
             fa = fopen(PATH"constante_ldr_c_avg.csv", "w");
             fs = fopen(PATH"constante_ldr_c_sd.csv", "w");
             break;
-        case experimentoc_ldr_asm: 
-            fa = fopen(PATH"experimentoc_ldr_asm_avg.csv", "w");
-            fs = fopen(PATH"experimentoc_ldr_asm_sd.csv", "w");
-            break;   
         case constante_sepia_asm:
             fa = fopen(PATH"constante_sepia_asm_avg.csv", "w");
             fs = fopen(PATH"constante_sepia_asm_sd.csv", "w");
@@ -158,8 +144,7 @@ void correr_exp(enum experimentos exp, int tm, int step, int n, int ldr_alpha, i
                 case aleatorio_cropflip_c:
                 case aleatorio_cropflip_asm: 
                 case aleatorio_ldr_asm:
-                case aleatorio_ldr_c:
-                case experimentoa_ldr_asm: 
+                case aleatorio_ldr_c: 
                 case aleatorio_sepia_asm:
                 case aleatorio_sepia_c:
                     img = generador_aleatorio(i, j);
@@ -167,15 +152,13 @@ void correr_exp(enum experimentos exp, int tm, int step, int n, int ldr_alpha, i
                 case constante_cropflip_c:
                 case constante_cropflip_asm: 
                 case constante_ldr_asm:
-                case constante_ldr_c:
-                case experimentoc_ldr_asm: 
+                case constante_ldr_c: 
                 case constante_sepia_asm:
                 case constante_sepia_c:
-                     img = generador_constante(i, j, r, g, b, a);
+                    img = generador_constante(i, j, r, g, b, a);
                     break;
             }
             imgD = generador_constante(i, j, 0, 0, 0, 0);
-
             for( k = 0; k < n; k++) {
                 switch(exp) {
                     case constante_cropflip_c:
@@ -197,17 +180,11 @@ void correr_exp(enum experimentos exp, int tm, int step, int n, int ldr_alpha, i
                         MEDIR_TIEMPO_STOP(mediciones[k]);
                         break;
                     case constante_ldr_c: 
-                    case aleatorio_ldr_c:                     
+                    case aleatorio_ldr_c: 
                         MEDIR_TIEMPO_START(start);
                         ldr_c(bmp_data(img), bmp_data(imgD), j, i, j*4, j*4, ldr_alpha);
                         MEDIR_TIEMPO_STOP(mediciones[k]);
                         break;
-                    case experimentoc_ldr_asm: 
-                    case experimentoa_ldr_asm:                     
-                        MEDIR_TIEMPO_START(start);
-                        ldr_c(bmp_data(img), bmp_data(imgD), j, i, j*4, j*4, ldr_alpha);
-                        MEDIR_TIEMPO_STOP(mediciones[k]);
-                        break;                      
                     case constante_sepia_asm:
                     case aleatorio_sepia_asm:
                         MEDIR_TIEMPO_START(start);
